@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/task_list_frame"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="@drawable/selector">
+
+    <RelativeLayout
+        android:id="@+id/task_list_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/activity_margin"
+        android:paddingEnd="@dimen/activity_margin"
+        android:paddingTop="@dimen/medium_margin"
+        android:paddingBottom="@dimen/medium_margin">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/task_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/task_item_calendar"
+            android:includeFontPadding="false"
+            android:ellipsize="end"
+            android:layout_alignParentTop="true"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/bigger_text_size"
+            android:textColor="@android:color/white"
+            android:paddingStart="@dimen/tiny_margin"
+            android:paddingEnd="@dimen/tiny_margin"
+            tools:text="Calculus" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/task_item_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/task_item_title"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:paddingStart="@dimen/tiny_margin"
+            android:paddingEnd="@dimen/tiny_margin"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/bigger_text_size"
+            android:textColor="@android:color/white"
+            tools:text="Task page 55"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/task_item_calendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/bigger_text_size"
+            android:textColor="@android:color/white"
+            tools:text="July 03 2020 (Fri) 08:00"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settings_scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/settings_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/settings_schedule_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:paddingStart="@dimen/normal_margin"
+            android:paddingTop="@dimen/medium_margin"
+            android:paddingEnd="@dimen/normal_margin"
+            android:paddingBottom="@dimen/medium_margin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settings_schedule_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/medium_margin"
+                android:paddingStart="@dimen/medium_margin"
+                android:paddingEnd="@dimen/medium_margin"
+                android:paddingBottom="@dimen/medium_margin"
+                android:text="@string/settings_schedule"
+                android:textColor="@color/colorPrimary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settings_schedules_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/settings_schedule_label"
+                android:paddingTop="@dimen/medium_margin"
+                android:paddingStart="@dimen/medium_margin"
+                android:paddingEnd="@dimen/medium_margin"
+                android:paddingBottom="@dimen/medium_margin"
+                android:text="@string/settings_schedule_delete_all"
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_grey"
+            android:importantForAccessibility="no" />
+
+        <RelativeLayout
+            android:id="@+id/settings_task_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:paddingStart="@dimen/normal_margin"
+            android:paddingTop="@dimen/medium_margin"
+            android:paddingEnd="@dimen/normal_margin"
+            android:paddingBottom="@dimen/medium_margin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settings_task_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/medium_margin"
+                android:paddingStart="@dimen/medium_margin"
+                android:paddingEnd="@dimen/medium_margin"
+                android:paddingBottom="@dimen/medium_margin"
+                android:text="@string/settings_task"
+                android:textColor="@color/colorPrimary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settings_tasks_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/settings_task_label"
+                android:paddingTop="@dimen/medium_margin"
+                android:paddingStart="@dimen/medium_margin"
+                android:paddingEnd="@dimen/medium_margin"
+                android:paddingBottom="@dimen/medium_margin"
+                android:text="@string/settings_task_delete_all"
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_grey"
+            android:importantForAccessibility="no" />
+
+        <RelativeLayout
+            android:id="@+id/settings_note_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:paddingStart="@dimen/normal_margin"
+            android:paddingTop="@dimen/medium_margin"
+            android:paddingEnd="@dimen/normal_margin"
+            android:paddingBottom="@dimen/medium_margin">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settings_note_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/medium_margin"
+                android:paddingStart="@dimen/medium_margin"
+                android:paddingEnd="@dimen/medium_margin"
+                android:paddingBottom="@dimen/medium_margin"
+                android:text="@string/settings_note"
+                android:textColor="@color/colorPrimary" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settings_notes_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/settings_note_label"
+                android:paddingTop="@dimen/medium_margin"
+                android:paddingStart="@dimen/medium_margin"
+                android:paddingEnd="@dimen/medium_margin"
+                android:paddingBottom="@dimen/medium_margin"
+                android:textColor="@android:color/white"
+                android:text="@string/settings_note_delete_all" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_grey"
+            android:importantForAccessibility="no" />
+
+    </LinearLayout>
+</ScrollView>

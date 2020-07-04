@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_schedule"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_round_background">
+
+    <TextView
+        android:id="@+id/widget_date_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/normal_margin"
+        android:paddingEnd="@dimen/normal_margin"
+        android:paddingTop="@dimen/medium_margin"
+        android:paddingBottom="@dimen/medium_margin"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/smaller_text_size"
+        android:text="@string/schedule_widget_date_example" />
+
+    <ImageView
+        android:id="@+id/widget_add_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:contentDescription="@string/schedule_new"
+        android:layout_alignParentEnd="true"
+        android:paddingStart="@dimen/medium_margin"
+        android:paddingTop="@dimen/small_margin"
+        android:paddingEnd="@dimen/medium_margin"
+        android:paddingBottom="@dimen/small_margin"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_plus_vector" />
+
+    <ImageView
+        android:id="@+id/widget_head_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/widget_date_label"
+        android:background="@color/divider_grey"
+        android:importantForAccessibility="no" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/widget_head_divider">
+
+        <ListView
+            android:id="@+id/widget_schedule_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:divider="@null"
+            android:paddingStart="@dimen/medium_margin"
+            android:paddingEnd="@dimen/medium_margin"
+            android:paddingBottom="@dimen/small_margin" />
+
+        <TextView
+            android:id="@+id/widget_schedule_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/no_schedule_widget"
+            android:textColor="@android:color/white" />
+
+    </FrameLayout>
+
+</RelativeLayout>

@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">Class Reminder</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!-- Schedule -->
+    <string name="schedule_new">New Schedule</string>
+    <string name="schedule_update">Update Schedule</string>
+    <string name="schedule_title">Title</string>
+    <string name="schedule_location">Location</string>
+    <string name="schedule_time">Time</string>
+    <string name="schedule_info">Info</string>
+    <string name="schedule_day">Day</string>
+    <string name="schedule_start_at">Start</string>
+    <string name="schedule_end_at">End</string>
+    <string name="schedule_save">Save</string>
+    <string name="schedule_delete">Delete</string>
+    <string name="schedule_start_time">08:00</string>
+    <string name="schedule_end_time">09:40</string>
+    <string name="schedule_day_default">Monday</string>
+    <string name="schedule_reminder_default">1 hour before</string>
+    <string name="schedule_add_action">Schedule added</string>
+    <string name="schedule_update_action">Schedule updated</string>
+    <string name="schedule_delete_action">Schedule deleted</string>
+    <string name="no_schedule">No Schedule</string>
+
+    <!-- Schedule widget -->
+    <string name="schedule_widget_name">Schedule Event List</string>
+    <string name="schedule_widget_date_example">June 25 2020 (Thursday)</string>
+    <string name="no_schedule_widget">No Schedule</string>
+
+    <!-- Task -->
+    <string name="task_new">New Task</string>
+    <string name="task_update">Update Task</string>
+    <string name="task_title">Title</string>
+    <string name="task_description">Description</string>
+    <string name="task_deadline">Deadline</string>
+    <string name="task_date_default">July 3 2020 (Fri)</string>
+    <string name="task_time_default">08:00</string>
+    <string name="task_add_action">Task added</string>
+    <string name="task_update_action">Task updated</string>
+    <string name="task_delete_action">Task deleted</string>
+    <string name="no_task">No Task</string>
+
+    <!-- Note -->
+    <string name="note_new">New Note</string>
+    <string name="note_update">Update Note</string>
+    <string name="note_title">Title</string>
+    <string name="note_content">Note…</string>
+    <string name="note_add_action">Note added</string>
+    <string name="note_update_action">Note updated</string>
+    <string name="note_delete_action">Note deleted</string>
+    <string name="no_note">No Note</string>
+
+    <!-- Days -->
+    <string name="day_monday">Monday</string>
+    <string name="day_tuesday">Tuesday</string>
+    <string name="day_wednesday">Wednesday</string>
+    <string name="day_thursday">Thursday</string>
+    <string name="day_friday">Friday</string>
+    <string name="day_saturday">Saturday</string>
+    <string name="day_sunday">Sunday</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="settings_schedule">Schedule</string>
+    <string name="settings_schedule_delete_all">Delete all schedules</string>
+    <string name="settings_schedule_delete_all_action">Are you sure you want to delete all schedules?</string>
+    <string name="settings_task">Task</string>
+    <string name="settings_task_delete_all">Delete all tasks</string>
+    <string name="settings_task_delete_all_action">Are you sure you want to delete all tasks?</string>
+    <string name="settings_note">Note</string>
+    <string name="settings_note_delete_all">Delete all notes</string>
+    <string name="settings_note_delete_all_action">Are you sure you want to delete all notes?</string>
+
+    <!-- About -->
+    <string name="about">About</string>
+    <string name="about_email_label">Send your feedback or suggestions to</string>
+    <string name="about_my_email">azisanw19@gmail.com</string>
+    <string name="about_copyright">v1.0\nCopyright © Canwar App 2020</string>
+</resources>

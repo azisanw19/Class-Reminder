@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/schedule_item_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/schedule_item_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/small_margin"
+        android:maxLines="1"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/middle_text_size"
+        tools:text="@string/schedule_time" />
+
+    <TextView
+        android:id="@+id/schedule_item_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/schedule_item_start"
+        android:layout_marginStart="@dimen/small_margin"
+        android:includeFontPadding="false"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/middle_text_size"
+        tools:text="15:00"  />
+
+    <TextView
+        android:id="@+id/schedule_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_toEndOf="@+id/schedule_item_start"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/middle_text_size"
+        android:textColor="@android:color/white"
+        tools:text="Schedule title" />
+
+    <TextView
+        android:id="@+id/schedule_item_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/schedule_item_title"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_toEndOf="@+id/schedule_item_end"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:textSize="@dimen/middle_text_size"
+        android:textColor="@android:color/white"
+        tools:text="Schedule info" />
+
+    <ImageView
+        android:id="@+id/widget_item_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/schedule_item_info"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:background="@color/divider_grey"
+        android:importantForAccessibility="no" />
+
+</RelativeLayout>
