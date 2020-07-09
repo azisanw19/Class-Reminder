@@ -3,8 +3,10 @@ package id.canwar.classreminder.activities
 import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
@@ -15,10 +17,12 @@ import id.canwar.classreminder.models.Schedule
 import kotlinx.android.synthetic.main.activity_schedule.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ScheduleActivity : AppCompatActivity() {
 
     private var id: Int? = null
+    private lateinit var historyTitles: Set<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +31,18 @@ class ScheduleActivity : AppCompatActivity() {
         /** parsing data intent */
         if (intent.action == UPDATE_ACTION) {
             getDataIntent(intent.extras!!)
+        } else {
+            schedule_day_text.text = weekOfDay(config.lastDayScheduleSelect)
+            schedule_start_time_text.text = minuteToTime(config.lastScheduleEndTime)
+            schedule_end_time_text.text = minuteToTime(config.lastScheduleEndTime + config.intervalStartEnd)
         }
+
+        historyTitles = config.displayTitles
+
+        /** Auto Complete Text View **/
+        val suggestText = ArrayAdapter<String>(this, R.layout.custom_select_dialog, ArrayList<String>(historyTitles))
+        schedule_title.threshold = 1
+        schedule_title.setAdapter(suggestText)
 
         /** App bar **/
         initAppbar()
@@ -82,9 +97,15 @@ class ScheduleActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
 
+        config.lastDayScheduleSelect = dayOfWeek(schedule_day_text.text.toString())
+        config.lastScheduleEndTime = timeToMinute(schedule_end_time_text.text.toString())
+        val minute = timeToMinute(schedule_end_time_text.text.toString()) - timeToMinute(schedule_start_time_text.text.toString())
+        config.intervalStartEnd = minute
+
         /** Trigger Widget & Notifications **/
         triggerWidgetSchedule()
-        getNextNotificationSchedule()
+        if (config.notificationScheduleStatus)
+            getNextNotificationSchedule()
 
         finish()
         return true
@@ -102,11 +123,23 @@ class ScheduleActivity : AppCompatActivity() {
         val schedule = Schedule(id, title, location, info, day, start, end)
 
         if (intent.action == UPDATE_ACTION) {
+
+            if (!historyTitles.contains(title)) {
+                config.addDisplayTitle(title)
+                val oldTitle = intent.extras!!.getString(SCHEDULE_TITLE)
+                if (historyTitles.contains(oldTitle))
+                    config.removeDisplayTitle(oldTitle!!)
+            }
+
             dbHelper.updateSchedule(schedule)
-            Toast.makeText(baseContext, getString(R.string.schedule_add_action), Toast.LENGTH_SHORT).show()
-        }  else {
-            dbHelper.insertSchedule(schedule)
             Toast.makeText(baseContext, getString(R.string.schedule_update_action), Toast.LENGTH_SHORT).show()
+        }  else {
+
+            if (!historyTitles.contains(title))
+                config.addDisplayTitle(title)
+
+            dbHelper.insertSchedule(schedule)
+            Toast.makeText(baseContext, getString(R.string.schedule_add_action), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -120,6 +153,14 @@ class ScheduleActivity : AppCompatActivity() {
         val end = timeToMinute(schedule_end_time_text.text.toString())
 
         val scheduleInsert = Schedule(id, title, location, info, day, start, end)
+
+        if (historyTitles.contains(title))
+            config.removeDisplayTitle(title)
+
+        val oldTitle = intent.extras!!.getString(SCHEDULE_TITLE)
+
+        if (historyTitles.contains(oldTitle))
+            config.removeDisplayTitle(oldTitle!!)
 
         dbHelper.deleteSchedule(scheduleInsert)
         Toast.makeText(baseContext, getString(R.string.schedule_delete_action), Toast.LENGTH_SHORT).show()
@@ -162,7 +203,7 @@ class ScheduleActivity : AppCompatActivity() {
 
         val choice = array.indexOf(textView.text)
 
-        AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+        AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
             .setSingleChoiceItems(array, choice) { dialog, which ->
                 textView.text = array[which]
                 dialog.dismiss()

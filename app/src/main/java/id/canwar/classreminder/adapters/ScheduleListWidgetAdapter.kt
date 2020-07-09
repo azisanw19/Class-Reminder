@@ -14,7 +14,6 @@ import id.canwar.classreminder.helpers.*
 import id.canwar.classreminder.helpers.WidgetScheduleProvider.Companion.ACTION_REFRESH
 import id.canwar.classreminder.models.Schedule
 
-
 class ScheduleListWidgetAdapter(val context: Context, val intent: Intent) : RemoteViewsService.RemoteViewsFactory {
 
     private val schedules = ArrayList<Schedule>()
@@ -71,6 +70,5 @@ class ScheduleListWidgetAdapter(val context: Context, val intent: Intent) : Remo
     override fun onDestroy() {
         // close data source
     }
-
-
+    
 }

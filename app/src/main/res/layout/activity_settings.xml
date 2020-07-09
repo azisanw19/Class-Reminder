@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settings_scrollview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -16,32 +17,81 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:paddingStart="@dimen/normal_margin"
-            android:paddingTop="@dimen/medium_margin"
+            android:paddingTop="@dimen/normal_margin"
             android:paddingEnd="@dimen/normal_margin"
-            android:paddingBottom="@dimen/medium_margin">
+            android:paddingBottom="@dimen/normal_margin">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/settings_schedule_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/medium_margin"
+                android:paddingTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/medium_margin"
                 android:paddingEnd="@dimen/medium_margin"
-                android:paddingBottom="@dimen/medium_margin"
+                android:paddingBottom="@dimen/normal_margin"
                 android:text="@string/settings_schedule"
                 android:textColor="@color/colorPrimary" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/settings_schedule_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/settings_schedule_label"
+                android:paddingTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/medium_margin"
+                android:paddingEnd="@dimen/medium_margin"
+                android:paddingBottom="@dimen/normal_margin"
+                android:background="?attr/selectableItemBackground"
+                android:text="@string/settings_notification_status"
+                android:textColor="@android:color/white" />
+
+            <RelativeLayout
+                android:id="@+id/settings_schedule_reminder_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/settings_schedule_notification"
+                android:background="?attr/selectableItemBackground">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/settings_schedule_reminder_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingTop="@dimen/normal_margin"
+                    android:paddingStart="@dimen/medium_margin"
+                    android:paddingEnd="@dimen/medium_margin"
+                    android:paddingBottom="@dimen/normal_margin"
+                    android:text="@string/settings_notification_reminder"
+                    android:textColor="@android:color/white" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/settings_schedule_reminder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/settings_schedule_reminder_label"
+                    android:gravity="end"
+                    android:paddingStart="@dimen/medium_margin"
+                    android:paddingTop="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/medium_margin"
+                    android:paddingBottom="@dimen/normal_margin"
+                    android:textColor="@android:color/white"
+                    android:maxLines="3"
+                    tools:text="1 hour" />
+
+            </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/settings_schedules_delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/settings_schedule_label"
-                android:paddingTop="@dimen/medium_margin"
+                android:layout_below="@id/settings_schedule_reminder_layout"
+                android:paddingTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/medium_margin"
                 android:paddingEnd="@dimen/medium_margin"
-                android:paddingBottom="@dimen/medium_margin"
+                android:paddingBottom="@dimen/normal_margin"
                 android:text="@string/settings_schedule_delete_all"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:background="?attr/selectableItemBackground"/>
 
         </RelativeLayout>
 
@@ -57,32 +107,81 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:paddingStart="@dimen/normal_margin"
-            android:paddingTop="@dimen/medium_margin"
+            android:paddingTop="@dimen/normal_margin"
             android:paddingEnd="@dimen/normal_margin"
-            android:paddingBottom="@dimen/medium_margin">
+            android:paddingBottom="@dimen/normal_margin">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/settings_task_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/medium_margin"
+                android:paddingTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/medium_margin"
                 android:paddingEnd="@dimen/medium_margin"
-                android:paddingBottom="@dimen/medium_margin"
+                android:paddingBottom="@dimen/normal_margin"
                 android:text="@string/settings_task"
                 android:textColor="@color/colorPrimary" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/settings_task_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/settings_task_label"
+                android:paddingTop="@dimen/normal_margin"
+                android:paddingStart="@dimen/medium_margin"
+                android:paddingEnd="@dimen/medium_margin"
+                android:paddingBottom="@dimen/normal_margin"
+                android:text="@string/settings_notification_status"
+                android:textColor="@android:color/white"
+                android:background="?attr/selectableItemBackground" />
+
+            <RelativeLayout
+                android:id="@+id/settings_task_reminder_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/settings_task_notification"
+                android:background="?attr/selectableItemBackground">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/settings_task_reminder_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingTop="@dimen/normal_margin"
+                    android:paddingStart="@dimen/medium_margin"
+                    android:paddingEnd="@dimen/medium_margin"
+                    android:paddingBottom="@dimen/normal_margin"
+                    android:text="@string/settings_notification_reminder"
+                    android:textColor="@android:color/white" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/settings_task_reminder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/settings_task_reminder_label"
+                    android:gravity="end"
+                    android:paddingStart="@dimen/medium_margin"
+                    android:paddingTop="@dimen/normal_margin"
+                    android:paddingEnd="@dimen/medium_margin"
+                    android:paddingBottom="@dimen/normal_margin"
+                    android:textColor="@android:color/white"
+                    android:maxLines="3"
+                    tools:text="1 hour" />
+
+            </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/settings_tasks_delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/settings_task_label"
-                android:paddingTop="@dimen/medium_margin"
+                android:layout_below="@id/settings_task_reminder_layout"
+                android:paddingTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/medium_margin"
                 android:paddingEnd="@dimen/medium_margin"
-                android:paddingBottom="@dimen/medium_margin"
+                android:paddingBottom="@dimen/normal_margin"
                 android:text="@string/settings_task_delete_all"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:background="?attr/selectableItemBackground" />
 
         </RelativeLayout>
 
@@ -98,18 +197,18 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:paddingStart="@dimen/normal_margin"
-            android:paddingTop="@dimen/medium_margin"
+            android:paddingTop="@dimen/normal_margin"
             android:paddingEnd="@dimen/normal_margin"
-            android:paddingBottom="@dimen/medium_margin">
+            android:paddingBottom="@dimen/normal_margin">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/settings_note_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/medium_margin"
+                android:paddingTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/medium_margin"
                 android:paddingEnd="@dimen/medium_margin"
-                android:paddingBottom="@dimen/medium_margin"
+                android:paddingBottom="@dimen/normal_margin"
                 android:text="@string/settings_note"
                 android:textColor="@color/colorPrimary" />
 
@@ -118,12 +217,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/settings_note_label"
-                android:paddingTop="@dimen/medium_margin"
+                android:paddingTop="@dimen/normal_margin"
                 android:paddingStart="@dimen/medium_margin"
                 android:paddingEnd="@dimen/medium_margin"
-                android:paddingBottom="@dimen/medium_margin"
+                android:paddingBottom="@dimen/normal_margin"
                 android:textColor="@android:color/white"
-                android:text="@string/settings_note_delete_all" />
+                android:text="@string/settings_note_delete_all"
+                android:background="?attr/selectableItemBackground" />
 
         </RelativeLayout>
 

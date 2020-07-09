@@ -11,6 +11,7 @@ import id.canwar.classreminder.R
 import id.canwar.classreminder.activities.MainActivity
 import id.canwar.classreminder.extensions.getNextNotificationSchedule
 import id.canwar.classreminder.extensions.getNextNotificationTask
+import id.canwar.classreminder.extensions.minuteToTime
 import id.canwar.classreminder.helpers.*
 
 class NotificationReceiver : BroadcastReceiver() {
@@ -37,13 +38,12 @@ class NotificationReceiver : BroadcastReceiver() {
 
         val builder = NotificationCompat.Builder(context!!, id.toString())
             .setContentTitle(title)
-            .setContentText("Reminder 1 day before task $title.")
+            .setContentText("Reminder task $title.")
             .setSmallIcon(R.drawable.ic_reminder_vector)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_SOUND or Notification.FLAG_AUTO_CANCEL)
             .setChannelId(id!!.toString())
-            .setPriority(Notification.PRIORITY_MAX)
             .build()
 
         val notificationManager =
@@ -72,13 +72,12 @@ class NotificationReceiver : BroadcastReceiver() {
 
         val builder = NotificationCompat.Builder(context!!, id.toString())
             .setContentTitle(title)
-            .setContentText("Reminder 60 minute before class $title.")
+            .setContentText("Reminder class $title at ${context.minuteToTime(timeStart!!)}. $info")
             .setSmallIcon(R.drawable.ic_reminder_vector)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_SOUND or Notification.FLAG_AUTO_CANCEL)
             .setChannelId(id!!.toString())
-            .setPriority(Notification.PRIORITY_MAX)
             .build()
 
         val notificationManager =

@@ -23,3 +23,18 @@ const val NOTE_CONTENT = "content_note"
 
 const val NOTIFICATION_SCHEDULE = "notification_schedule"
 const val NOTIFICATION_TASK = "notification_task"
+
+/** shared preferences **/
+const val PREFS_KEY = "Prefs"
+const val NOTIFICATION_SCHEDULE_STATUS = "notification_schedule_status"
+const val NOTIFICATION_TASK_STATUS = "notification_task_status"
+const val LAST_DAY_SCHEDULE_SELECT = "last_day_schedule_select"
+const val LAST_SCHEDULE_END_MINUTE = "last_schedule_end_time"
+const val INTERVAL_START_END_MINUTE = "interval_start_end"
+const val SCHEDULE_REMINDER_MINUTE = "schedule_reminder_minute"
+const val TASK_REMINDER_MINUTE = "task_reminder_minute"
+const val DISPLAY_TITLE = "display_title"
+
+/** in Minute **/
+const val HOUR_MINUTE = 60
+const val DAY_MINUTE = 1440

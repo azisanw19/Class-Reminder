@@ -128,7 +128,9 @@ class TaskActivity : AppCompatActivity() {
         }
 
         /** trigger notifications **/
-        getNextNotificationTask()
+        if (config.notificationTaskStatus)
+            getNextNotificationTask()
+
         finish()
         return true
     }

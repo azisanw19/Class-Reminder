@@ -39,15 +39,6 @@ class DBHelper private constructor(val context: Context) : SQLiteOpenHelper(cont
     /** Handling DB **/
     private val mDb = writableDatabase
 
-    /** All Column schedule **/
-    private  val cols = arrayOf(SCHEDULE_COL_ID,
-        SCHEDULE_COL_TITLE,
-        SCHEDULE_COL_LOCATION,
-        SCHEDULE_COL_INFO,
-        SCHEDULE_COL_DAY,
-        SCHEDULE_COL_TIME_START,
-        SCHEDULE_COL_TIME_END)
-
     companion object {
         private const val DB_VERSION = 1
         const val DB_NAME = "schedule"
@@ -260,7 +251,7 @@ class DBHelper private constructor(val context: Context) : SQLiteOpenHelper(cont
             val order = "$SCHEDULE_COL_DAY, $SCHEDULE_COL_TIME_START"
             val selection = "$SCHEDULE_COL_DAY == ?"
             val selectionArgs = arrayOf(day.toString())
-            cursor = mDb.query(SCHEDULE_TABLE_NAME, cols, selection, selectionArgs, null, null, order)
+            cursor = mDb.query(SCHEDULE_TABLE_NAME, null, selection, selectionArgs, null, null, order)
             if (cursor.moveToFirst()) {
                 do {
                     try {
@@ -283,7 +274,7 @@ class DBHelper private constructor(val context: Context) : SQLiteOpenHelper(cont
         val order = "$SCHEDULE_COL_DAY, $SCHEDULE_COL_TIME_START"
         var cursor: Cursor? = null
         try {
-            cursor = mDb.query(SCHEDULE_TABLE_NAME, cols, null, null, null, null, order)
+            cursor = mDb.query(SCHEDULE_TABLE_NAME, null, null, null, null, null, order)
             if (cursor?.moveToFirst() == true) {
                 do {
                     try {
@@ -347,7 +338,7 @@ class DBHelper private constructor(val context: Context) : SQLiteOpenHelper(cont
             val selectionArgs = arrayOf(day.toString(), time.toString())
             val order = "$SCHEDULE_COL_DAY, $SCHEDULE_COL_TIME_START"
             val limit = "1"
-            cursor = mDb.query(SCHEDULE_TABLE_NAME, cols, selection, selectionArgs, null, null, order, limit)
+            cursor = mDb.query(SCHEDULE_TABLE_NAME, null, selection, selectionArgs, null, null, order, limit)
 
             if (cursor?.moveToFirst() == true) {
                 schedule = extractCursorSchedule(cursor)
@@ -367,7 +358,7 @@ class DBHelper private constructor(val context: Context) : SQLiteOpenHelper(cont
             val selectionArgs = arrayOf(day.toString())
             val order = "$SCHEDULE_COL_DAY, $SCHEDULE_COL_TIME_START"
             val limit = "1"
-            cursor = mDb.query(SCHEDULE_TABLE_NAME, cols, selection, selectionArgs, null, null, order, limit)
+            cursor = mDb.query(SCHEDULE_TABLE_NAME, null, selection, selectionArgs, null, null, order, limit)
 
             if (cursor?.moveToFirst() == true) {
                 schedule = extractCursorSchedule(cursor)
@@ -385,7 +376,7 @@ class DBHelper private constructor(val context: Context) : SQLiteOpenHelper(cont
         try {
             val order = "$SCHEDULE_COL_DAY, $SCHEDULE_COL_TIME_START"
             val limit = "1"
-            cursor = mDb.query(SCHEDULE_TABLE_NAME, cols, null, null, null, null, order, limit)
+            cursor = mDb.query(SCHEDULE_TABLE_NAME, null, null, null, null, null, order, limit)
             if (cursor?.moveToFirst() == true) {
                 schedule = extractCursorSchedule(cursor)
             }
@@ -411,7 +402,7 @@ class DBHelper private constructor(val context: Context) : SQLiteOpenHelper(cont
         var schedule: Schedule? = null
         var cursor: Cursor? = null
         try {
-            cursor = mDb.query(SCHEDULE_TABLE_NAME, cols, null, null, null, null, null)
+            cursor = mDb.query(SCHEDULE_TABLE_NAME, null, null, null, null, null, null)
             val count = cursor.count
             schedule = when (count) {
                 0 -> null

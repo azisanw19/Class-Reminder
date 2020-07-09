@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import id.canwar.classreminder.activities.MainActivity
 import id.canwar.classreminder.helpers.*
 import id.canwar.classreminder.models.Schedule
 import id.canwar.classreminder.models.Task
@@ -15,6 +14,7 @@ import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
+val Context.config: Config get() = Config.newInstance(applicationContext)
 val Context.dbHelper: DBHelper get() = DBHelper.newInstance(applicationContext)
 
 fun Context.timeToMinute(string: String): Int {
@@ -49,8 +49,7 @@ fun Context.dayOfWeek(string: String): Int {
 fun Context.weekOfDay(int: Int): String {
     val calendar = Calendar.getInstance()
     calendar.time = SimpleDateFormat("u").parse(int.toString())
-    val day = SimpleDateFormat("EEEE").format(calendar.time)
-    return day
+    return SimpleDateFormat("EEEE").format(calendar.time)
 }
 
 fun Context.getDayInt(): Int {
@@ -89,11 +88,11 @@ private fun calendarNextSchedule(day: Int, time: Int): Calendar {
 fun Context.getNextNotificationSchedule() {
     val calendar = Calendar.getInstance()
     val day = SimpleDateFormat("u").format(calendar.time).toInt()
-    val time = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE) + 60
+    val time = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE) + config.scheduleReminderMinute
     val schedule = this.dbHelper.getNextSchedule(day, time)
 
     if (schedule != null) {
-        val scheduleCalendar = calendarNextSchedule(schedule.day, schedule.timeStart - 60)
+        val scheduleCalendar = calendarNextSchedule(schedule.day, schedule.timeStart - config.scheduleReminderMinute)
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val pendingIntent = getNotificationIntentSchedule(this, schedule)
@@ -104,13 +103,17 @@ fun Context.getNextNotificationSchedule() {
             Log.e("Error", e.toString())
         }
     } else {
-        /** cancel pending intent **/
-        val intent = Intent(this, NotificationReceiver::class.java).apply {
-            action = NOTIFICATION_SCHEDULE
-        }
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        pendingIntent?.cancel()
+        cancelNotificationSchedule()
     }
+}
+
+fun Context.cancelNotificationSchedule() {
+    /** cancel pending intent **/
+    val intent = Intent(this, NotificationReceiver::class.java).apply {
+        action = NOTIFICATION_SCHEDULE
+    }
+    val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    pendingIntent?.cancel()
 }
 
 /** request code schedule 0 **/
@@ -135,12 +138,12 @@ private fun getNotificationIntentSchedule(context: Context, schedule: Schedule):
 
 fun Context.getNextNotificationTask() {
     val calendar = Calendar.getInstance()
-    calendar.add(Calendar.DAY_OF_MONTH, 1)
+    calendar.add(Calendar.MINUTE, config.taskReminderMinute)
     val task = dbHelper.getTask(calendar.timeInMillis.toString())
 
     if (task != null) {
         calendar.timeInMillis = task.time.toLong()
-        calendar.add(Calendar.DAY_OF_MONTH, -1)
+        calendar.add(Calendar.MINUTE, - config.taskReminderMinute)
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val pendingIntent = getNotificationIntentTask(this, task)
@@ -151,14 +154,18 @@ fun Context.getNextNotificationTask() {
             Log.e("Error", e.toString())
         }
     } else {
-        /** Cancel PendingIntent **/
-        val intent = Intent(this, NotificationReceiver::class.java).apply {
-            action = NOTIFICATION_TASK
-        }
-        val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        pendingIntent?.cancel()
+        cancelNotificationTask()
     }
 
+}
+
+fun Context.cancelNotificationTask() {
+    /** Cancel PendingIntent **/
+    val intent = Intent(this, NotificationReceiver::class.java).apply {
+        action = NOTIFICATION_TASK
+    }
+    val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    pendingIntent?.cancel()
 }
 
 /** request code task 1 **/

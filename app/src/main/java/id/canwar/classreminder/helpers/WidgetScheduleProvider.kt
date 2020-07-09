@@ -7,7 +7,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.widget.RemoteViews
 import id.canwar.classreminder.R
 import id.canwar.classreminder.activities.ScheduleActivity
@@ -56,8 +55,6 @@ class WidgetScheduleProvider : AppWidgetProvider() {
                 updateAppWidget(it, views)
                 notifyAppWidgetViewDataChanged(it, R.id.widget_schedule_list)
             }
-
-            Log.d("schedule_update", "widgetUpdate")
         }
 
     }

@@ -74,10 +74,16 @@
     <string name="settings_note">Note</string>
     <string name="settings_note_delete_all">Delete all notes</string>
     <string name="settings_note_delete_all_action">Are you sure you want to delete all notes?</string>
+    <string name="settings_notification_status">Notification</string>
+    <string name="settings_notification_reminder">Display notification from the past</string>
 
     <!-- About -->
     <string name="about">About</string>
     <string name="about_email_label">Send your feedback or suggestions to</string>
     <string name="about_my_email">azisanw19@gmail.com</string>
     <string name="about_copyright">v1.0\nCopyright © Canwar App 2020</string>
+
+    <string name="minute_raw">minute</string>
+    <string name="hour_raw">hour</string>
+    <string name="day_raw">day</string>
 </resources>
