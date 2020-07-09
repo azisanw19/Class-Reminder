@@ -1,11 +1,9 @@
 package id.canwar.classreminder.helpers
 
 import android.content.Context
-import java.util.*
 import kotlin.collections.HashSet
 
 class Config(context: Context) {
-    // belum di kirim ke activity
 
     private val prefs = context.getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE)
 

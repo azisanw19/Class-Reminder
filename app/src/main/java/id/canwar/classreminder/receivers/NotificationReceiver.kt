@@ -38,7 +38,7 @@ class NotificationReceiver : BroadcastReceiver() {
 
         val builder = NotificationCompat.Builder(context!!, id.toString())
             .setContentTitle(title)
-            .setContentText("Reminder task $title.")
+            .setContentText("Reminder task $title. $description")
             .setSmallIcon(R.drawable.ic_reminder_vector)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
