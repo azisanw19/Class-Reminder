@@ -3,7 +3,6 @@ package id.canwar.classreminder.activities
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -12,6 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import id.canwar.classreminder.R
 import id.canwar.classreminder.extensions.*
 import id.canwar.classreminder.helpers.*
+import id.canwar.classreminder.helpers.Formatter
 import id.canwar.classreminder.models.Task
 import kotlinx.android.synthetic.main.activity_task.*
 import java.text.SimpleDateFormat
@@ -34,8 +34,8 @@ class TaskActivity : AppCompatActivity() {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = timeInMills!!.toLong()
 
-            val date = SimpleDateFormat("MMMM dd yyyy (EEE)").format(calendar.time)
-            val time = SimpleDateFormat("HH:mm").format(calendar.time)
+            val date = SimpleDateFormat("MMMM dd yyyy (EEE)", Locale.US).format(calendar.time)
+            val time = SimpleDateFormat("HH:mm", Locale.US).format(calendar.time)
 
             task_title.setText(title)
             task_description.setText(description)
@@ -44,7 +44,7 @@ class TaskActivity : AppCompatActivity() {
         } else {
 
             val calendar = Calendar.getInstance()
-            val date = SimpleDateFormat("MMMM dd yyyy (EEE)").format(calendar.time)
+            val date = SimpleDateFormat("MMMM dd yyyy (EEE)", Locale.US).format(calendar.time)
 
             task_date.text = date
         }
@@ -80,33 +80,33 @@ class TaskActivity : AppCompatActivity() {
     private fun setupTimePicker(textView: AppCompatTextView) {
 
         val calendar = Calendar.getInstance()
-        calendar.time = SimpleDateFormat("HH:mm").parse(textView.text.toString())
-        val timeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+        calendar.time = SimpleDateFormat("HH:mm", Locale.US).parse(textView.text.toString())
+        val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
             calendar.apply {
                 set(Calendar.HOUR_OF_DAY, hourOfDay)
                 set(Calendar.MINUTE, minute)
             }
-            textView.text = SimpleDateFormat("HH:mm").format(calendar.time)
+            textView.text = SimpleDateFormat("HH:mm", Locale.US).format(calendar.time)
         }
 
-        TimePickerDialog(this, TimePickerDialog.THEME_DEVICE_DEFAULT_DARK, timeSetListener, calendar.get(
+        TimePickerDialog(this, R.style.DialogTheme, timeSetListener, calendar.get(
             Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
     }
 
     private fun setupDatePicker(textView: AppCompatTextView) {
 
         val calendar = Calendar.getInstance()
-        calendar.time = SimpleDateFormat("MMMM dd yyyy (EEE)").parse(textView.text.toString())
+        calendar.time = SimpleDateFormat("MMMM dd yyyy (EEE)", Locale.US).parse(textView.text.toString())
         val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
             calendar.apply {
                 set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 set(Calendar.MONTH, month)
                 set(Calendar.YEAR, year)
             }
-            textView.text = SimpleDateFormat("MMMM dd yyyy (EEE)").format(calendar.time)
+            textView.text = SimpleDateFormat("MMMM dd yyyy (EEE)", Locale.US).format(calendar.time)
         }
 
-        DatePickerDialog(this, DatePickerDialog.THEME_DEVICE_DEFAULT_DARK, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+        DatePickerDialog(this, R.style.DialogTheme, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
 
     }
 
@@ -138,8 +138,7 @@ class TaskActivity : AppCompatActivity() {
     private fun saveTask() {
         val title = task_title.text.toString()
         val description: String? = task_description.text.toString()
-        Log.d("taskActivity", "tohere")
-        val time = getTimeInMills()
+        val time = Formatter.getTimeInMills("${task_date.text} ${task_time.text}")
 
 
         val task = Task(id, title, description, time)
@@ -157,21 +156,12 @@ class TaskActivity : AppCompatActivity() {
     private fun deleteTask() {
         val title = task_title.text.toString()
         val description: String? = task_description.text.toString()
-        val time = getTimeInMills()
+        val time = Formatter.getTimeInMills("${task_date.text} ${task_time.text}")
 
         val task = Task(id, title, description, time)
-        Log.d("methodDelet", id.toString())
 
         dbHelper.deleteTask(task)
         Toast.makeText(baseContext, resources.getText(R.string.task_delete_action), Toast.LENGTH_SHORT).show()
-    }
-
-    private fun getTimeInMills(): String {
-
-        val calendar = Calendar.getInstance()
-        calendar.time = SimpleDateFormat("MMMM dd yyyy (EEE) HH:mm").parse("${task_date.text} ${task_time.text}")
-
-        return calendar.timeInMillis.toString()
     }
 
 }

@@ -22,6 +22,7 @@
     <string name="schedule_day_default">Monday</string>
     <string name="schedule_reminder_default">1 hour before</string>
     <string name="schedule_add_action">Schedule added</string>
+    <string name="schedule_empty_title">Please fill the title</string>
     <string name="schedule_update_action">Schedule updated</string>
     <string name="schedule_delete_action">Schedule deleted</string>
     <string name="no_schedule">No Schedule</string>

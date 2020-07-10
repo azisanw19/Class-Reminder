@@ -10,13 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import id.canwar.classreminder.R
 import id.canwar.classreminder.activities.TaskActivity
 import id.canwar.classreminder.helpers.*
+import id.canwar.classreminder.helpers.Formatter
 import id.canwar.classreminder.models.Task
 import kotlinx.android.synthetic.main.fragment_task_item_holder.view.*
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
-class TaskAdapter(val context: Context, val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+class TaskAdapter(val context: Context, private val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskAdapter.ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.fragment_task_item_holder, parent, false)
@@ -25,24 +24,17 @@ class TaskAdapter(val context: Context, val tasks: ArrayList<Task>) : RecyclerVi
     override fun getItemCount(): Int = tasks.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(context, tasks[position])
+        holder.bind(tasks[position])
     }
 
-    open inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    open inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
-
-        private val view = view
-
-        fun bind(context: Context, task: Task) {
+        fun bind(task: Task) {
 
             view.task_item_title.text = task.title
             view.task_item_description.text = task.description
 
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = task.time.toLong()
-            val time = SimpleDateFormat("MMMM dd yyyy (EEE) HH:mm").format(calendar.time)
-
-            view.task_item_calendar.text = time
+            view.task_item_calendar.text = Formatter.getStringTimeTask(task.time.toLong())
 
             view.setOnClickListener {
                 Intent(it.context, TaskActivity::class.java).apply {

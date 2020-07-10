@@ -17,51 +17,10 @@ import java.util.*
 val Context.config: Config get() = Config.newInstance(applicationContext)
 val Context.dbHelper: DBHelper get() = DBHelper.newInstance(applicationContext)
 
-fun Context.timeToMinute(string: String): Int {
-    val calendar = Calendar.getInstance()
-    calendar.time = SimpleDateFormat("HH:mm").parse(string)
-    val hourOfMinute = calendar.get(Calendar.HOUR_OF_DAY) * 60
-    val minute = calendar.get(Calendar.MINUTE)
-    return hourOfMinute + minute
-}
-
-fun Context.minuteToTime(int: Int): String? {
-    val calendar = Calendar.getInstance()
-
-    val hour = int / 60
-    val minute = int % 60
-
-    calendar.apply {
-        set(Calendar.HOUR_OF_DAY, hour)
-        set(Calendar.MINUTE, minute)
-    }
-
-    return SimpleDateFormat("HH:mm").format(calendar.time)
-}
-
-fun Context.dayOfWeek(string: String): Int {
-    val calendar = Calendar.getInstance()
-    calendar.time = SimpleDateFormat("EEEE").parse(string)
-    val day = SimpleDateFormat("u").format(calendar.time)
-    return day.toInt()
-}
-
-fun Context.weekOfDay(int: Int): String {
-    val calendar = Calendar.getInstance()
-    calendar.time = SimpleDateFormat("u").parse(int.toString())
-    return SimpleDateFormat("EEEE").format(calendar.time)
-}
-
-fun Context.getDayInt(): Int {
-    val calendar = Calendar.getInstance()
-    val day = SimpleDateFormat("u").format(calendar.time)
-    return day.toInt()
-}
-
 private fun calendarNextSchedule(day: Int, time: Int): Calendar {
 
     val calendar = Calendar.getInstance()
-    val thisDay = SimpleDateFormat("u").format(calendar.time).toInt()
+    val thisDay = SimpleDateFormat("u", Locale.US).format(calendar.time).toInt()
     if (thisDay != day) {
         val dayAdd = (day + 7 - thisDay) % 7
         calendar.add(Calendar.DAY_OF_MONTH, dayAdd)
@@ -87,7 +46,7 @@ private fun calendarNextSchedule(day: Int, time: Int): Calendar {
 
 fun Context.getNextNotificationSchedule() {
     val calendar = Calendar.getInstance()
-    val day = SimpleDateFormat("u").format(calendar.time).toInt()
+    val day = SimpleDateFormat("u", Locale.US).format(calendar.time).toInt()
     val time = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE) + config.scheduleReminderMinute
     val schedule = this.dbHelper.getNextSchedule(day, time)
 

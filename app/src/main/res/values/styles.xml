@@ -11,4 +11,12 @@
         <item name="android:windowBackground">@color/app_color_background</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@color/app_color_background</item>
+    </style>
+
+    <style name="DialogThemeWithTextView" parent="Theme.AppCompat.Dialog.Alert" >
+        <item name="android:windowBackground">@color/app_color_background</item>
+    </style>
 </resources>

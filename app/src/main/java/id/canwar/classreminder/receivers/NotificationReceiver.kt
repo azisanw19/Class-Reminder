@@ -1,23 +1,23 @@
 package id.canwar.classreminder.receivers
 
 import android.app.Notification
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.core.app.NotificationCompat
 import id.canwar.classreminder.R
 import id.canwar.classreminder.activities.MainActivity
 import id.canwar.classreminder.extensions.getNextNotificationSchedule
 import id.canwar.classreminder.extensions.getNextNotificationTask
-import id.canwar.classreminder.extensions.minuteToTime
 import id.canwar.classreminder.helpers.*
 
 class NotificationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-
 
         when(intent?.action) {
             NOTIFICATION_SCHEDULE -> notificationScheduleBuilder(context, intent)
@@ -42,12 +42,21 @@ class NotificationReceiver : BroadcastReceiver() {
             .setSmallIcon(R.drawable.ic_reminder_vector)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
-            .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_SOUND or Notification.FLAG_AUTO_CANCEL)
+            .setDefaults(Notification.DEFAULT_ALL)
             .setChannelId(id!!.toString())
             .build()
 
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(id.toString(), title, NotificationManager.IMPORTANCE_DEFAULT)
+            notificationChannel.description = description
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.WHITE
+            notificationChannel.enableVibration(true)
+            notificationChannel.setShowBadge(false)
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+
         notificationManager.notify(id!!, builder)
 
         /** call next task **/
@@ -72,16 +81,25 @@ class NotificationReceiver : BroadcastReceiver() {
 
         val builder = NotificationCompat.Builder(context!!, id.toString())
             .setContentTitle(title)
-            .setContentText("Reminder class $title at ${context.minuteToTime(timeStart!!)}. $info")
+            .setContentText("Reminder class $title at ${Formatter.getTimeFromMinute(timeStart!!)}. $info")
             .setSmallIcon(R.drawable.ic_reminder_vector)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
-            .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_SOUND or Notification.FLAG_AUTO_CANCEL)
+            .setDefaults(Notification.DEFAULT_ALL)
             .setChannelId(id!!.toString())
             .build()
 
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(id.toString(), title, NotificationManager.IMPORTANCE_HIGH)
+            notificationChannel.description = info
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.WHITE
+            notificationChannel.enableVibration(true)
+            notificationChannel.setShowBadge(false)
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
         notificationManager.notify(id!!, builder)
 
         /** call next schedule **/

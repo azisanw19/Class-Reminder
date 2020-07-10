@@ -14,7 +14,7 @@ import id.canwar.classreminder.models.Note
 import kotlinx.android.synthetic.main.fragment_note_item_holder.view.*
 import kotlin.collections.ArrayList
 
-class NoteAdapter(val context: Context, val notes: ArrayList<Note>) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
+class NoteAdapter(val context: Context, private val notes: ArrayList<Note>) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteAdapter.ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.fragment_note_item_holder, parent, false)
@@ -23,15 +23,12 @@ class NoteAdapter(val context: Context, val notes: ArrayList<Note>) : RecyclerVi
     override fun getItemCount(): Int = notes.size
 
     override fun onBindViewHolder(holder: NoteAdapter.ViewHolder, position: Int) {
-        holder.bind(context, notes[position])
+        holder.bind(notes[position])
     }
 
-    open inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    open inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
-
-        private val view = view
-
-        fun bind(context: Context, note: Note) {
+        fun bind(note: Note) {
 
             view.note_item_title.text = note.title
             view.note_item_content.text = note.content

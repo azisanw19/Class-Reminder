@@ -7,8 +7,8 @@ import id.canwar.classreminder.R
 import id.canwar.classreminder.helpers.*
 import kotlinx.android.synthetic.main.dialog_custom_reminder.view.*
 
-class CustomReminderDialog(val activity: Activity, val selectMinute: Int = 0, val callback: (minute: Int) -> Unit) {
-    var dialog: AlertDialog
+class CustomReminderDialog(private val activity: Activity, private val selectMinute: Int = 0, val callback: (minute: Int) -> Unit) {
+    private var dialog: AlertDialog
     var view = activity.layoutInflater.inflate(R.layout.dialog_custom_reminder, null) as ViewGroup
 
     init {
@@ -30,9 +30,9 @@ class CustomReminderDialog(val activity: Activity, val selectMinute: Int = 0, va
             }
         }
 
-        dialog = AlertDialog.Builder(activity, android.R.style.Theme_DeviceDefault_Dialog_Alert)
+        dialog = AlertDialog.Builder(activity, R.style.DialogThemeWithTextView)
             .setView(view)
-            .setPositiveButton(R.string.ok) { dialogInterface, which -> confirmRepeatInterval()}
+            .setPositiveButton(R.string.ok) { _, _ -> confirmRepeatInterval()}
             .setNegativeButton(R.string.cancel, null)
             .create()
         dialog.show()

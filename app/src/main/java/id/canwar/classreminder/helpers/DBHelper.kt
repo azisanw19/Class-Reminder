@@ -309,7 +309,7 @@ class DBHelper private constructor(val context: Context) : SQLiteOpenHelper(cont
         return mDb.delete(SCHEDULE_TABLE_NAME, null, null) == 1
     }
 
-    fun extractCursorSchedule(cursor: Cursor): Schedule {
+    private fun extractCursorSchedule(cursor: Cursor): Schedule {
         val positionId = cursor.getColumnIndex(SCHEDULE_COL_ID)
         val positionTitle = cursor.getColumnIndex(SCHEDULE_COL_TITLE)
         val positionLocation = cursor.getColumnIndex(SCHEDULE_COL_LOCATION)
@@ -330,7 +330,7 @@ class DBHelper private constructor(val context: Context) : SQLiteOpenHelper(cont
     }
 
     /** get Next Schedule **/
-    fun sameDayNextTime(day: Int, time: Int): Schedule? {
+    private fun sameDayNextTime(day: Int, time: Int): Schedule? {
         var schedule: Schedule? = null
         var cursor: Cursor? = null
         try {
@@ -350,7 +350,7 @@ class DBHelper private constructor(val context: Context) : SQLiteOpenHelper(cont
         return schedule
     }
 
-    fun nextDay(day: Int): Schedule? {
+    private fun nextDay(day: Int): Schedule? {
         var schedule: Schedule? = null
         var cursor: Cursor? = null
         try {
@@ -370,7 +370,7 @@ class DBHelper private constructor(val context: Context) : SQLiteOpenHelper(cont
         return schedule
     }
 
-    fun nextWeek(): Schedule? {
+    private fun nextWeek(): Schedule? {
         var schedule: Schedule? = null
         var cursor: Cursor? = null
         try {
@@ -387,16 +387,16 @@ class DBHelper private constructor(val context: Context) : SQLiteOpenHelper(cont
         return schedule
     }
 
-    fun oneSchedule(cursor: Cursor): Schedule? {
+    private fun oneSchedule(cursor: Cursor): Schedule? {
         var schedule: Schedule? = null
-        if (cursor.moveToFirst() == true) {
+        if (cursor.moveToFirst()) {
             schedule = extractCursorSchedule(cursor)
         }
 
         return schedule
     }
 
-    fun moreThenOne(day: Int, time: Int): Schedule? = sameDayNextTime(day, time) ?: nextDay(day) ?: nextWeek()
+    private fun moreThenOne(day: Int, time: Int): Schedule? = sameDayNextTime(day, time) ?: nextDay(day) ?: nextWeek()
 
     fun getNextSchedule(day: Int, time: Int): Schedule? {
         var schedule: Schedule? = null

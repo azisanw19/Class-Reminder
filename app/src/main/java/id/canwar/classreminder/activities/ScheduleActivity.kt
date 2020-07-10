@@ -3,9 +3,9 @@ package id.canwar.classreminder.activities
 import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import id.canwar.classreminder.R
 import id.canwar.classreminder.extensions.*
 import id.canwar.classreminder.helpers.*
+import id.canwar.classreminder.helpers.Formatter
 import id.canwar.classreminder.models.Schedule
 import kotlinx.android.synthetic.main.activity_schedule.*
 import java.text.SimpleDateFormat
@@ -32,9 +33,9 @@ class ScheduleActivity : AppCompatActivity() {
         if (intent.action == UPDATE_ACTION) {
             getDataIntent(intent.extras!!)
         } else {
-            schedule_day_text.text = weekOfDay(config.lastDayScheduleSelect)
-            schedule_start_time_text.text = minuteToTime(config.lastScheduleEndTime)
-            schedule_end_time_text.text = minuteToTime(config.lastScheduleEndTime + config.intervalStartEnd)
+            schedule_day_text.text = Formatter.getDayFromInt(config.lastDayScheduleSelect)
+            schedule_start_time_text.text = Formatter.getTimeFromMinute(config.lastScheduleEndTime)
+            schedule_end_time_text.text = Formatter.getTimeFromMinute(config.lastScheduleEndTime + config.intervalStartEnd)
         }
 
         historyTitles = config.displayTitles
@@ -67,9 +68,9 @@ class ScheduleActivity : AppCompatActivity() {
         schedule_title.setText(title)
         schedule_location.setText(location)
         schedule_info.setText(info)
-        schedule_day_text.text = weekOfDay(day)
-        schedule_start_time_text.text = minuteToTime(timeStart)
-        schedule_end_time_text.text = minuteToTime(timeEnd)
+        schedule_day_text.text = Formatter.getDayFromInt(day)
+        schedule_start_time_text.text = Formatter.getTimeFromMinute(timeStart)
+        schedule_end_time_text.text = Formatter.getTimeFromMinute(timeEnd)
     }
 
     private fun initAppbar() {
@@ -96,19 +97,20 @@ class ScheduleActivity : AppCompatActivity() {
             android.R.id.home -> finish()
             else -> super.onOptionsItemSelected(item)
         }
+        return true
+    }
 
-        config.lastDayScheduleSelect = dayOfWeek(schedule_day_text.text.toString())
-        config.lastScheduleEndTime = timeToMinute(schedule_end_time_text.text.toString())
-        val minute = timeToMinute(schedule_end_time_text.text.toString()) - timeToMinute(schedule_start_time_text.text.toString())
+    override fun onDestroy() {
+        config.lastDayScheduleSelect = Formatter.getDayFromString(schedule_day_text.text.toString())
+        config.lastScheduleEndTime = Formatter.getMinuteFromTime(schedule_end_time_text.text.toString())
+        val minute = Formatter.getMinuteFromTime(schedule_end_time_text.text.toString()) - Formatter.getMinuteFromTime(schedule_start_time_text.text.toString())
         config.intervalStartEnd = minute
 
         /** Trigger Widget & Notifications **/
         triggerWidgetSchedule()
         if (config.notificationScheduleStatus)
             getNextNotificationSchedule()
-
-        finish()
-        return true
+        super.onDestroy()
     }
 
     private fun saveSchedule() {
@@ -116,30 +118,37 @@ class ScheduleActivity : AppCompatActivity() {
         val title = schedule_title.text.toString()
         val location = schedule_location.text.toString()
         val info: String? = schedule_info.text.toString()
-        val day = dayOfWeek(schedule_day_text.text.toString())
-        val start = timeToMinute(schedule_start_time_text.text.toString())
-        val end = timeToMinute(schedule_end_time_text.text.toString())
+        val day = Formatter.getDayFromString(schedule_day_text.text.toString())
+        val start = Formatter.getMinuteFromTime(schedule_start_time_text.text.toString())
+        val end = Formatter.getMinuteFromTime(schedule_end_time_text.text.toString())
 
         val schedule = Schedule(id, title, location, info, day, start, end)
 
-        if (intent.action == UPDATE_ACTION) {
+        if (title == "") {
+            emptyTitle()
+        }
+        else {
+            if (intent.action == UPDATE_ACTION) {
 
-            if (!historyTitles.contains(title)) {
-                config.addDisplayTitle(title)
-                val oldTitle = intent.extras!!.getString(SCHEDULE_TITLE)
-                if (historyTitles.contains(oldTitle))
-                    config.removeDisplayTitle(oldTitle!!)
+                if (!historyTitles.contains(title)) {
+                    config.addDisplayTitle(title)
+                    val oldTitle = intent.extras!!.getString(SCHEDULE_TITLE)
+                    if (historyTitles.contains(oldTitle))
+                        config.removeDisplayTitle(oldTitle!!)
+                }
+
+                dbHelper.updateSchedule(schedule)
+                Toast.makeText(baseContext, getString(R.string.schedule_update_action), Toast.LENGTH_SHORT).show()
             }
+            else {
 
-            dbHelper.updateSchedule(schedule)
-            Toast.makeText(baseContext, getString(R.string.schedule_update_action), Toast.LENGTH_SHORT).show()
-        }  else {
+                if (!historyTitles.contains(title))
+                    config.addDisplayTitle(title)
 
-            if (!historyTitles.contains(title))
-                config.addDisplayTitle(title)
-
-            dbHelper.insertSchedule(schedule)
-            Toast.makeText(baseContext, getString(R.string.schedule_add_action), Toast.LENGTH_SHORT).show()
+                dbHelper.insertSchedule(schedule)
+                Toast.makeText(baseContext, getString(R.string.schedule_add_action), Toast.LENGTH_SHORT).show()
+            }
+            finish()
         }
     }
 
@@ -148,10 +157,9 @@ class ScheduleActivity : AppCompatActivity() {
         val title = schedule_title.text.toString()
         val location = schedule_location.text.toString()
         val info: String? = schedule_info.text.toString()
-        val day = dayOfWeek(schedule_day_text.text.toString())
-        val start = timeToMinute(schedule_start_time_text.text.toString())
-        val end = timeToMinute(schedule_end_time_text.text.toString())
-
+        val day = Formatter.getDayFromString(schedule_day_text.text.toString())
+        val start = Formatter.getMinuteFromTime(schedule_start_time_text.text.toString())
+        val end = Formatter.getMinuteFromTime(schedule_end_time_text.text.toString())
         val scheduleInsert = Schedule(id, title, location, info, day, start, end)
 
         if (historyTitles.contains(title))
@@ -164,13 +172,14 @@ class ScheduleActivity : AppCompatActivity() {
 
         dbHelper.deleteSchedule(scheduleInsert)
         Toast.makeText(baseContext, getString(R.string.schedule_delete_action), Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     private fun initUi() {
 
         schedule_day_text.setOnClickListener {
-            val day = resources.getStringArray(R.array.day_array)
-            setupDialog(day, schedule_day_text)
+            val days = resources.getStringArray(R.array.day_array)
+            setupDialog(days, schedule_day_text)
         }
 
         schedule_start_time_text.setOnClickListener {
@@ -186,16 +195,16 @@ class ScheduleActivity : AppCompatActivity() {
     private fun setupTimePicker(textView: AppCompatTextView) {
 
         val calendar = Calendar.getInstance()
-        calendar.time = SimpleDateFormat("HH:mm").parse(textView.text.toString())
+        calendar.time = SimpleDateFormat("HH:mm", Locale.US).parse(textView.text.toString())
         val timeSetListener = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
             calendar.apply {
                 set(Calendar.HOUR_OF_DAY, hourOfDay)
                 set(Calendar.MINUTE, minute)
             }
-            textView.text = SimpleDateFormat("HH:mm").format(calendar.time)
+            textView.text = SimpleDateFormat("HH:mm", Locale.US).format(calendar.time)
         }
 
-        TimePickerDialog(this, TimePickerDialog.THEME_DEVICE_DEFAULT_DARK, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+        TimePickerDialog(this, R.style.DialogTheme, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
     }
 
 
@@ -203,7 +212,7 @@ class ScheduleActivity : AppCompatActivity() {
 
         val choice = array.indexOf(textView.text)
 
-        AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
+        AlertDialog.Builder(this, R.style.DialogTheme)
             .setSingleChoiceItems(array, choice) { dialog, which ->
                 textView.text = array[which]
                 dialog.dismiss()
@@ -211,6 +220,16 @@ class ScheduleActivity : AppCompatActivity() {
             .create()
             .show()
 
+    }
+
+    private fun emptyTitle() {
+        val alertDialog = androidx.appcompat.app.AlertDialog.Builder(this, R.style.DialogTheme).create()
+        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        alertDialog.setMessage(resources.getString(R.string.schedule_empty_title))
+        alertDialog.setButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE, resources.getText(R.string.ok)) { dialog, _ ->
+            dialog.dismiss()
+        }
+        alertDialog.show()
     }
 
 }

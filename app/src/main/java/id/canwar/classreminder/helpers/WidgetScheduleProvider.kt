@@ -24,7 +24,7 @@ class WidgetScheduleProvider : AppWidgetProvider() {
 
     private fun thisDate(): String{
         val calendar = Calendar.getInstance()
-        return SimpleDateFormat("MMMM dd yyyy (EEEE)").format(calendar.time)
+        return SimpleDateFormat("MMMM dd yyyy (EEEE)", Locale.US).format(calendar.time)
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
